@@ -31,6 +31,16 @@ function getByEmailPassword (email, password) {
   .then(omit('password'))
 }
 
+function getUserById (id) {
+  return one({id})
+  .catchThrow(new Error('invalid user id'))
+}
+
+function updateUser (id, firstName, lastName, bio) {
+  return update({id}, {first_name:firstName, last_name:lastName, bio:bio})
+  //.catchThrow(new Error('unable to update user'))
+}
+
 function ensureEmailNotTaken (email) {
   return none({email})
   .catchThrow(new Error('email taken'))
@@ -38,6 +48,8 @@ function ensureEmailNotTaken (email) {
 
 module.exports = {
   create,
+  updateUser,
+  getUserById,
   getByEmailPassword,
   ensureEmailNotTaken,
 }
